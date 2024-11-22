@@ -1,0 +1,7 @@
+<!-- res/drawable/bg_rounded_top.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" />
+    <corners android:topLeftRadius="30dp" android:topRightRadius="30dp"/>
+    <padding android:bottom="10dp" />
+    <shadow color="#33000000" dx="0" dy="4" radius="10"/>
+</shape>

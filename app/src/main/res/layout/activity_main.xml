@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="45dp"
+        android:layout_height="53dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="27dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/logo" />
+    <TextView
+        android:id="@+id/tunas_id_ab"
+        android:layout_width="91dp"
+        android:layout_height="46dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="83dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="38dp"
+        android:gravity="top"
+        android:text="TUNAS.ID
+        ABSENSI"
+        android:textColor="@color/white"
+        android:fontFamily="@font/robotobold" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="33dp"
+        android:layout_height="43.44dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="344dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="39dp"
+        android:src="@drawable/notifikasi" />
+
+    <Button
+        android:id="@+id/button_rekap"
+        android:layout_width="155dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="222dp"
+        android:layout_marginTop="106dp"
+        android:background="@drawable/button_rekap"
+        android:text="Data Rekap"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/button_rekap"
+        android:background="@drawable/bg_rounded_top"
+        android:layout_marginTop="16dp">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Attendance Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/card1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rounded_card_background"
+                    android:padding="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="4dp"
+                   >
+
+                    <!-- Profile Image -->
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/fotoprofil"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/circle_background"
+                        android:padding="4dp"/>
+
+                    <!-- Employee Info -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jokowi"
+                            android:textColor="#000000"
+                            android:fontFamily="@font/robotobold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Karyawan"
+                            android:textColor="#888888"
+                            android:textSize="14sp" />
+
+                        <!-- Status Buttons -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hari Ini:"
+                            android:textColor="#9C27B0"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="4dp">
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tepat Waktu"
+                                android:background="@drawable/button_tepat_waktu"
+                                android:textColor="#FFFFFF"
+                                android:layout_marginEnd="8dp"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="4dp" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Terlambat"
+                                android:background="@drawable/button_terlambat"
+                                android:textColor="#FFFFFF"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="4dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/card2"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rounded_card_background"
+                    android:padding="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="4dp"
+                    >
+
+                    <!-- Profile Image -->
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/fotoprofil"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/circle_background"
+                        android:padding="4dp"/>
+
+                    <!-- Employee Info -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jokowi"
+                            android:textColor="#000000"
+                            android:fontFamily="@font/robotobold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Karyawan"
+                            android:textColor="#888888"
+                            android:textSize="14sp" />
+
+                        <!-- Status Buttons -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hari Ini:"
+                            android:textColor="#9C27B0"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="4dp">
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tepat Waktu"
+                                android:background="@drawable/button_tepat_waktu"
+                                android:textColor="#FFFFFF"
+                                android:layout_marginEnd="8dp"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="4dp" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Terlambat"
+                                android:background="@drawable/button_terlambat"
+                                android:textColor="#FFFFFF"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="4dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/card3"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rounded_card_background"
+                    android:padding="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="4dp"
+                    >
+
+                    <!-- Profile Image -->
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/fotoprofil"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/circle_background"
+                        android:padding="4dp"/>
+
+                    <!-- Employee Info -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jokowi"
+                            android:textColor="#000000"
+                            android:fontFamily="@font/robotobold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Karyawan"
+                            android:textColor="#888888"
+                            android:textSize="14sp" />
+
+                        <!-- Status Buttons -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hari Ini:"
+                            android:textColor="#9C27B0"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="4dp">
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tepat Waktu"
+                                android:background="@drawable/button_tepat_waktu"
+                                android:textColor="#FFFFFF"
+                                android:layout_marginEnd="8dp"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="4dp" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Terlambat"
+                                android:background="@drawable/button_terlambat"
+                                android:textColor="#FFFFFF"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="4dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/card4"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rounded_card_background"
+                    android:padding="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="4dp"
+                  >
+
+                    <!-- Profile Image -->
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/fotoprofil"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/circle_background"
+                        android:padding="4dp"/>
+
+                    <!-- Employee Info -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jokowi"
+                            android:textColor="#000000"
+                            android:fontFamily="@font/robotobold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Karyawan"
+                            android:textColor="#888888"
+                            android:textSize="14sp" />
+
+                        <!-- Status Buttons -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hari Ini:"
+                            android:textColor="#9C27B0"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="4dp">
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tepat Waktu"
+                                android:background="@drawable/button_tepat_waktu"
+                                android:textColor="#FFFFFF"
+                                android:layout_marginEnd="8dp"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="4dp" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Terlambat"
+                                android:background="@drawable/button_terlambat"
+                                android:textColor="#FFFFFF"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="4dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <!-- Duplicate the above Attendance Card layout for multiple entries -->
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+
+
+
+</RelativeLayout>

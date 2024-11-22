@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".DataRekap">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="45dp"
+        android:layout_height="53dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="27dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/logo" />
+    <TextView
+        android:id="@+id/tunas_id_ab"
+        android:layout_width="91dp"
+        android:layout_height="46dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="83dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="38dp"
+        android:gravity="top"
+        android:text="TUNAS.ID
+        ABSENSI"
+        android:textColor="@color/white"
+        android:fontFamily="@font/robotobold" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="33dp"
+        android:layout_height="43.44dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="344dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="39dp"
+        android:src="@drawable/notifikasi" />
+
+    <Button
+        android:id="@+id/button_rekap"
+        android:layout_width="155dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="132dp"
+        android:layout_marginTop="108dp"
+        android:background="@drawable/button_rekap"
+        android:padding="16dp"
+        android:text="Data Rekap"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/button_rekap"
+        android:background="@drawable/bg_rounded_top"
+        android:layout_marginTop="16dp">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:gravity="center">
+
+                <!-- Tepat Waktu Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="220dp"
+                        android:background="@drawable/ijofile"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+                        <!-- Icon Tepat Waktu -->
+                        <FrameLayout
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:id="@+id/framegabung"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/circle_background" />
+
+                            <ImageView
+                                android:id="@+id/icon_tepat_waktu"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/iconclock"
+                                app:tint="#FFFFFF" />
+                        </FrameLayout>
+
+                        <!-- Text Tepat Waktu -->
+                        <TextView
+                            android:id="@+id/text_tepat_waktu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/framegabung"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="8dp"
+                            android:text="TEPAT WAKTU"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/robotobold"
+                            android:textStyle="bold" />
+
+
+                        <!-- Menu Dots -->
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/baseline_more_vert_24"
+                            app:tint="#FFFFFF" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Terlambat Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_height="wrap_content"
+                    android:layout_width="220dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/merahfile"
+                        android:padding="16dp">
+
+                        <!-- Icon Terlambat -->
+                        <FrameLayout
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:id="@+id/framegabungterlambat"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/circle_background" />
+
+                            <ImageView
+                                android:id="@+id/icon_terlambat"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/warning"
+                                app:tint="#FFFFFF" />
+                        </FrameLayout>
+
+                        <!-- Text Terlambat -->
+                        <TextView
+                            android:id="@+id/text_terlambat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/framegabungterlambat"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="8dp"
+                            android:text="TERLAMBAT"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <!-- Menu Dots -->
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/baseline_more_vert_24"
+                            app:tint="#FFFFFF" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </FrameLayout>
+
+</RelativeLayout>

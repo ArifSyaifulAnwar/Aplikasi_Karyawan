@@ -1,0 +1,5 @@
+<!-- res/drawable/button_terlambat.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FF5722"/> <!-- Orange color for "Terlambat" button -->
+    <corners android:radius="30dp"/> <!-- Rounded corners -->
+</shape>
