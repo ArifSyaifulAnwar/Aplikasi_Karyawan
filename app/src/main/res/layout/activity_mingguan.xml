@@ -169,7 +169,7 @@
                         android:background="@drawable/circle_background"
                         android:scaleType="centerCrop" />
 
-                    <!-- Content -->
+                    <!-- Content Section -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -193,12 +193,13 @@
                             android:textSize="14sp"
                             android:layout_marginTop="4dp" />
 
-                        <!-- Attendance Buttons -->
+                        <!-- Attendance Buttons Row 1 -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="16dp">
+                            android:layout_marginTop="12dp"
+                            android:gravity="center">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -236,11 +237,13 @@
                                 android:gravity="center" />
                         </LinearLayout>
 
+                        <!-- Attendance Buttons Row 2 -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="8dp">
+                            android:layout_marginTop="8dp"
+                            android:gravity="center">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -271,8 +274,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="bottom|end"
-                        android:orientation="horizontal">
+                        android:gravity="top|end"
+                        android:orientation="horizontal"
+                        android:layout_gravity="top|end">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -290,6 +294,9 @@
                             android:contentDescription="Checklist Icon" />
                     </LinearLayout>
                 </LinearLayout>
+
+
+
 
 
 
