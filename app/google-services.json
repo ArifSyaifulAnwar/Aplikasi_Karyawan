@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "197552334403",
+    "project_id": "tunasid-cfe4d",
+    "storage_bucket": "tunasid-cfe4d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197552334403:android:733152f7d684d9416ad6f6",
+        "android_client_info": {
+          "package_name": "com.example.tunasid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsfLb3Bm4qjmg7d5ZYxR0lvzr68P4xFMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
