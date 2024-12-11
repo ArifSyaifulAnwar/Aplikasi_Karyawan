@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".data_rekap_gabung">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:padding="15dp"
+        android:layout_alignParentTop="true">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/baseline_arrow_back_24" />
+
+        <!-- Header Text -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/robotobold"
+            android:textColor="@color/black"
+            android:text="Data Rekap"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <!-- Content Area -->
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:padding="20dp"
+        android:layout_marginTop="16dp"
+        android:text="Pilih Tahun:"
+        android:textColor="@color/black"
+        android:fontFamily="@font/robotobold"
+        android:textSize="14sp" />
+
+    <!-- Dropdown with Icon -->
+    <LinearLayout
+        android:id="@+id/dropdownContainer"
+        android:layout_width="149dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView2"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <!-- Spinner -->
+        <Spinner
+            android:id="@+id/yearSpinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:spinnerMode="dropdown" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dropdownContainer"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:id="@+id/bulan1"
+        android:gravity="center">
+
+        <!-- Box for Month 1 -->
+        <TextView
+            android:id="@+id/jan"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_gabing"
+            android:gravity="center"
+            android:text="JAN"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Box for Month 2 -->
+        <TextView
+            android:id="@+id/feb"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="FEB"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Box for Month 3 -->
+        <TextView
+            android:id="@+id/mar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="MAR"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Box for Month 4 -->
+        <TextView
+            android:id="@+id/apr"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="APR"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bulan1"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:id="@+id/bulan2"
+        android:gravity="center">
+
+        <!-- Box for Month 1 -->
+        <TextView
+            android:id="@+id/mei"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="MEI"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Box for Month 2 -->
+        <TextView
+            android:id="@+id/jun"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="JUN"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Box for Month 3 -->
+        <TextView
+            android:id="@+id/jul"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="JUL"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Box for Month 4 -->
+        <TextView
+            android:id="@+id/agus"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="AGU"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bulan2"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:id="@+id/bulan3"
+        android:gravity="center">
+
+        <!-- Box for Month 1 -->
+        <TextView
+            android:id="@+id/sep"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="SEP"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Box for Month 2 -->
+        <TextView
+            android:id="@+id/okt"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="OKT"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Box for Month 3 -->
+        <TextView
+            android:id="@+id/nov"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="NOV"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Box for Month 4 -->
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/box_background_white_gabung"
+            android:gravity="center"
+            android:text="DES"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</RelativeLayout>

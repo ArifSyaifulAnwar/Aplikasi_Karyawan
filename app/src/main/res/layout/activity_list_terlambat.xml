@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mingguan">
+    tools:context=".list_terlambat">
+
 
     <RelativeLayout
         android:id="@+id/header"
@@ -31,7 +32,7 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/robotobold"
             android:textColor="@color/black"
-            android:text="TEPAT WAKTU"
+            android:text="TERLAMBAT"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -42,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            app:srcCompat="@drawable/iconclockblck" />
+            app:srcCompat="@drawable/terlambat" />
 
     </RelativeLayout>
 
@@ -294,6 +295,5 @@
 
         </ScrollView>
     </FrameLayout>
-
 
 </RelativeLayout>
