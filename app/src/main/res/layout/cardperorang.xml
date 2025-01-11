@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/rounded_card_background"
+    android:padding="16dp"
+    android:layout_margin="8dp">
+
+    <!-- Gambar Profil -->
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/box_background"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="12dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_background" />
+
+    <!-- Kontainer untuk Nama dan Jabatan -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/namaKaryawan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Karyawan"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/jabatanKaryawan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jabatan"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Status Absen dan Tanggal -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/statusAbsen"
+            android:layout_width="161dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button_tepat_waktu"
+            android:gravity="center"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:text="ABSEN BERHASIL"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tanggalAbsen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SELASA, 17 DESEMBER 2024\n08.20"
+            android:gravity="center"
+            android:fontFamily="@font/robotobold"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+</LinearLayout>

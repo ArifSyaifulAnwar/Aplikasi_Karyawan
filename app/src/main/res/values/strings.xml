@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">tunasid</string>
+    <string-array name="jabatan_array_login">
+        <item>Pilih Jabatan</item>
+        <item>Manajemen</item>
+        <item>Karyawan</item>
+    </string-array>
+    <string-array name="jabatan_array_register">
+        <item>Pilih Jabatan</item>
+        <item>Karyawan</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

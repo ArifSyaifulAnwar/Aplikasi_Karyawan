@@ -31,15 +31,7 @@
         android:textColor="@color/white"
         android:fontFamily="@font/robotobold" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="33dp"
-        android:layout_height="43.44dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="344dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="39dp"
-        android:src="@drawable/notifikasi" />
+
 
     <Button
         android:id="@+id/button_rekap"
@@ -85,11 +77,12 @@
                     app:cardElevation="4dp">
 
                     <RelativeLayout
+                        android:id="@+id/folder_tepat_waktu"
                         android:layout_width="220dp"
                         android:background="@drawable/ijofile"
                         android:layout_height="wrap_content"
                         android:padding="16dp">
-                        <!-- Icon Tepat Waktu -->
+
                         <FrameLayout
                             android:layout_width="50dp"
                             android:layout_height="50dp"
@@ -128,6 +121,7 @@
 
                         <!-- Menu Dots -->
                         <ImageView
+                            android:id="@+id/pilihan_tepat_waktu"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginTop="15dp"
@@ -145,6 +139,7 @@
                     app:cardElevation="4dp">
 
                     <RelativeLayout
+                        android:id="@+id/folder_terlambat"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/merahfile"
@@ -187,6 +182,7 @@
 
                         <!-- Menu Dots -->
                         <ImageView
+                            android:id="@+id/pilihan_terlambat"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginTop="15dp"

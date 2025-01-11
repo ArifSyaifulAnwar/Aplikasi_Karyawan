@@ -24,7 +24,7 @@
             android:layout_centerVertical="true"
             app:srcCompat="@drawable/baseline_arrow_back_24" />
 
-        <!-- Header Text -->
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="5dp"
-            android:background="@drawable/box_background"
+            android:background="@drawable/box_background_telat"
             android:gravity="center"
             android:text="JAN"
             android:textColor="@color/white"

@@ -1,6 +1,8 @@
 package com.example.tunasid
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +17,13 @@ class notifikasi : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+
+        val buttonBack = findViewById<ImageView>(R.id.imageView4)
+        buttonBack.setOnClickListener{
+            val intent1 = Intent(this, MainActivity::class.java)
+            startActivity(intent1)
         }
     }
 }
