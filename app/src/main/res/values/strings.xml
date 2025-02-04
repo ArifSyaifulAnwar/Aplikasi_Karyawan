@@ -2,7 +2,7 @@
     <string name="app_name">tunasid</string>
     <string-array name="jabatan_array_login">
         <item>Pilih Jabatan</item>
-        <item>Manajemen</item>
+        <item>Manager</item>
         <item>Karyawan</item>
     </string-array>
     <string-array name="jabatan_array_register">

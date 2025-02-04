@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
+import android.util.Log
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
+import com.example.tunasid.DataRekap
 import com.example.tunasid.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -38,57 +41,62 @@ class editProfil : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_edit_profil)
+
         profileImageView = findViewById(R.id.profileImage)
+        val emailEditText = findViewById<EditText>(R.id.emailText)
+        val passwordEditText = findViewById<EditText>(R.id.passwordText)
+        val saveChangesButton = findViewById<Button>(R.id.saveButton)
+        val passwordToggle = findViewById<ImageView>(R.id.showPasswordButton)
+
+        // Inisialisasi Firebase
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        storage = FirebaseStorage.getInstance()
+
+        // Setup layout insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        db = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-        storage = FirebaseStorage.getInstance()
-
-        val emailEditText = findViewById<EditText>(R.id.emailText)
-        val passwordEditText = findViewById<EditText>(R.id.passwordText)
-        val saveChangesButton = findViewById<Button>(R.id.saveButton)
-        val passwordToggle = findViewById<ImageView>(R.id.showPasswordButton)
-
-        // Tampilkan email pengguna saat ini
+        // Periksa pengguna yang login
         val currentUser = auth.currentUser
         if (currentUser != null) {
+            val userId = currentUser.uid
+
+            // Ambil dan tampilkan gambar profil
+            fetchProfileImage(userId)
+
+            // Tampilkan email pengguna
             val email = currentUser.email ?: "Email tidak ditemukan"
             emailEditText.setText(email)
 
             // Ambil password dari Firestore
-            fetchPassword(currentUser.uid, passwordEditText)
+            fetchPassword(userId, passwordEditText)
 
             // Toggle visibility untuk password
             passwordToggle.setOnClickListener {
                 togglePasswordVisibility(passwordEditText, passwordToggle)
             }
 
+            // Set listener untuk gambar profil
             profileImageView.setOnClickListener {
                 showImagePickerOptions()
             }
 
-            // Simpan perubahan password
+            // Simpan perubahan profil
             saveChangesButton.setOnClickListener {
                 val newPassword = passwordEditText.text.toString()
                 val newEmail = emailEditText.text.toString()
-                saveChanges(currentUser.uid, newEmail, newPassword)
+                saveChanges(userId, newEmail, newPassword)
             }
         } else {
+            // Tampilkan pesan jika pengguna tidak login
             Toast.makeText(this, "Pengguna tidak ditemukan. Harap login ulang.", Toast.LENGTH_SHORT).show()
         }
-
-
-        profileImageView = findViewById(R.id.profileImage)
-
-        profileImageView.setOnClickListener {
-            showImagePickerOptions()
-        }
     }
+
     private fun saveChanges(userId: String, newEmail: String, newPassword: String) {
         if (newPassword.isEmpty() || newPassword.length < 6) {
             Toast.makeText(this, "Password harus memiliki minimal 6 karakter", Toast.LENGTH_SHORT).show()
@@ -208,23 +216,42 @@ class editProfil : AppCompatActivity() {
     }
 
     private fun openGallery() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_GALLERY)
-        } else {
-            val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(galleryIntent, REQUEST_GALLERY)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
         }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        startActivityForResult(intent, REQUEST_GALLERY)
     }
+
+
+
+
+
+
+
+
+
 
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CAMERA && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            openCamera()
-        } else {
-            Toast.makeText(this, "Izin Kamera Diperlukan", Toast.LENGTH_SHORT).show()
+        when (requestCode) {
+            REQUEST_GALLERY -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openGallery() // Buka galeri jika izin diberikan
+                } else {
+                    Toast.makeText(this, "Izin diperlukan untuk mengakses galeri", Toast.LENGTH_SHORT).show()
+                    Log.d("Permission", "Izin untuk galeri ditolak.")
+                }
+            }
         }
     }
+
+
+
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -235,6 +262,7 @@ class editProfil : AppCompatActivity() {
                     val tempUri = getImageUri(this, photo)
                     selectedImageUri = tempUri
                     profileImageView.setImageBitmap(photo)
+                    Log.d("Camera", "Foto berhasil diambil: $tempUri")
                 }
                 REQUEST_GALLERY -> {
                     selectedImageUri = data?.data
@@ -242,20 +270,44 @@ class editProfil : AppCompatActivity() {
                         try {
                             val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImageUri)
                             profileImageView.setImageBitmap(bitmap)
+                            Log.d("Gallery", "Gambar berhasil dipilih: $selectedImageUri")
                         } catch (e: IOException) {
                             e.printStackTrace()
                             Toast.makeText(this, "Gagal Memuat Gambar", Toast.LENGTH_SHORT).show()
                         }
+                    } else {
+                        Toast.makeText(this, "Tidak ada gambar yang dipilih", Toast.LENGTH_SHORT).show()
+                        Log.d("Gallery", "URI tidak valid atau kosong.")
                     }
                 }
             }
         }
     }
 
+
+
     // Helper function untuk menyimpan bitmap dari kamera ke URI
     private fun getImageUri(context: Context, image: Bitmap): Uri {
         val path = MediaStore.Images.Media.insertImage(context.contentResolver, image, "TempImage", null)
         return Uri.parse(path)
     }
+    private fun fetchProfileImage(userId: String) {
+        val storageRef = storage.reference.child("profile_images/$userId.jpg")
+
+        // Gunakan Glide untuk memuat gambar
+        storageRef.downloadUrl
+            .addOnSuccessListener { uri ->
+                Glide.with(this)
+                    .load(uri)
+                    .placeholder(R.drawable.circle_background) // Gambar placeholder
+                    .error(R.drawable.circle_background) // Gambar default jika gagal
+                    .into(profileImageView)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Gagal memuat gambar profil: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
 
 }

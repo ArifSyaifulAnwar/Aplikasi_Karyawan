@@ -15,6 +15,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import android.graphics.Color
 import android.widget.ImageView
+import java.text.SimpleDateFormat
 
 class BulanTepatWaktu : AppCompatActivity() {
     private lateinit var bulanViews: Array<TextView>
@@ -91,55 +92,40 @@ class BulanTepatWaktu : AppCompatActivity() {
         (selectedMonth as TextView).setTextColor(Color.WHITE) // Warna teks putih
     }
 
+
     private fun openMingguanActivity(selectedYear: Int, selectedMonth: Int) {
         val db = FirebaseFirestore.getInstance()
 
-
-        // Hitung tanggal awal dan akhir bulan yang dipilih
         val calendar = Calendar.getInstance()
-        calendar.set(selectedYear, selectedMonth - 1, 1, 0, 0, 0) // Bulan dimulai dari 0
+        calendar.set(Calendar.YEAR, selectedYear)
+        calendar.set(Calendar.MONTH, selectedMonth - 1) // Bulan dimulai dari 0
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
         val startDate = Timestamp(calendar.time)
 
-        calendar.set(selectedYear, selectedMonth - 1, calendar.getActualMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59)
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        calendar.set(Calendar.MILLISECOND, 999)
         val endDate = Timestamp(calendar.time)
 
-        db.collection("absensi")
-            .whereGreaterThanOrEqualTo("timestamp", startDate)
-            .whereLessThanOrEqualTo("timestamp", endDate)
-            .whereEqualTo("keterlambatan", "Tepat Waktu") // Filter hanya "Tepat Waktu"
-            .get()
-            .addOnSuccessListener { documents ->
-                val dataList = ArrayList<String>()
-                if (documents.isEmpty) {
-                    // Jika tidak ada data
-                    dataList.add("Belum ada data di bulan $selectedMonth $selectedYear.")
-                } else {
-                    // Jika ada data, masukkan semua dokumen ke dalam daftar
-                    for (document in documents) {
-                        val name = document.getString("name")
-                        val keterlambatan = document.getString("keterlambatan")
-                        val timestamp = document.getTimestamp("timestamp")?.toDate()
+        println("Querying data for month: $selectedMonth, year: $selectedYear")
+        println("Start Date: $startDate")
+        println("End Date: $endDate")
 
-                        dataList.add("Name: $name, Keterangan: $keterlambatan, Tanggal: $timestamp")
-                    }
-                }
-                // Kirim data ke activity berikutnya
-                val intent = Intent(this, mingguan::class.java)
-                intent.putStringArrayListExtra("dataList", dataList)
-                startActivity(intent)
-            }
-            .addOnFailureListener { e ->
-                if (e.message?.contains("FAILED_PRECONDITION") == true) {
-                    Toast.makeText(
-                        this,
-                        "Error: Index Firestore belum dibuat. Silakan buat index di Firestore console.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
+        // Kirim data ke activity berikutnya tanpa query Firestore di sini
+        val intent = Intent(this, mingguan::class.java)
+        intent.putExtra("selectedYear", selectedYear)
+        intent.putExtra("selectedMonth", selectedMonth)
+        intent.putExtra("startDate", startDate.seconds * 1000) // Convert to milliseconds
+        intent.putExtra("endDate", endDate.seconds * 1000)    // Convert to milliseconds
+        startActivity(intent)
     }
+
 
 
 

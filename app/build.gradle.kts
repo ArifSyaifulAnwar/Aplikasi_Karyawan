@@ -50,7 +50,9 @@ dependencies {
     implementation ("org.apache.poi:poi-ooxml:5.2.3")
     implementation ("androidx.work:work-runtime-ktx:2.8.1")
     implementation("com.google.firebase:firebase-storage-ktx:21.0.1")
-
+    implementation( "com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+    implementation ("com.google.android.material:material:1.9.0")
 
 
     testImplementation("junit:junit:4.13.2")

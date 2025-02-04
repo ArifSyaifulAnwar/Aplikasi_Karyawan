@@ -96,21 +96,27 @@ class DataRekap : AppCompatActivity() {
 
         // Header
         val headerRow: Row = sheet.createRow(rowIndex++)
-        val headers = listOf("No", "Nama", "Keterlambatan", "Tanggal", "Waktu")
+        val headers = listOf("No", "Nama", "Keterangan", "Tanggal", "Waktu")
         for ((index, header) in headers.withIndex()) {
             val cell: Cell = headerRow.createCell(index)
             cell.setCellValue(header)
+        }
+
+        // Sort data by timestamp
+        val sortedData = data.sortedBy { record ->
+            val timestamp = record["timestamp"] as? com.google.firebase.Timestamp
+            timestamp?.toDate()
         }
 
         // Data Rows
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
-        for (record in data) {
+        var noUrut = 1 // Nomor urut dimulai dari 2
+        for (record in sortedData) {
             val row: Row = sheet.createRow(rowIndex++)
 
-            // Menambahkan 1 ke nomor urut untuk memastikan nomor urut mulai dari 1
-            row.createCell(0).setCellValue(rowIndex.toDouble())  // Nomor urut
+            row.createCell(0).setCellValue(noUrut.toDouble()) // Nomor urut
             row.createCell(1).setCellValue(record["name"] as? String ?: "N/A")
             row.createCell(2).setCellValue(record["keterlambatan"] as? String ?: "N/A")
 
@@ -122,6 +128,8 @@ class DataRekap : AppCompatActivity() {
 
             row.createCell(3).setCellValue(formattedDate) // Tanggal
             row.createCell(4).setCellValue(formattedTime) // Waktu
+
+            noUrut++ // Increment nomor urut
         }
 
         // Save the file
@@ -145,6 +153,7 @@ class DataRekap : AppCompatActivity() {
             Toast.makeText(this, "Gagal menyimpan file Excel.", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun openExcelFile(file: File) {
         val uri: Uri = FileProvider.getUriForFile(this, "$packageName.provider", file)

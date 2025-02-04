@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tunasid.karyawan.homekaryawan
 import com.google.firebase.auth.FirebaseAuth
@@ -35,7 +36,14 @@ class login : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.btnLogin)
         val rememberMeCheckbox = findViewById<CheckBox>(R.id.rememberMeCheckbox)
         val button1 = findViewById<Button>(R.id.button7)
-        val regis = findViewById<TextView>(R.id.button7)
+        val regis = findViewById<TextView>(R.id.textView6)
+        val forgotPasswordTextView = findViewById<TextView>(R.id.lupapw)
+
+
+        regis.setOnClickListener {
+            val intent1 = Intent(this, register::class.java)
+            startActivity(intent1)
+        }
         // Load saved login credentials
         val rememberedEmail = sharedPreferences.getString("email", "")
         val rememberedPassword = sharedPreferences.getString("password", "")
@@ -62,6 +70,16 @@ class login : AppCompatActivity() {
             }
 
             loginUser(nama, email, password, jabatan, rememberMeCheckbox.isChecked)
+        }
+
+        forgotPasswordTextView.setOnClickListener {
+            val email = emailEditText.text.toString().trim()
+            if (email.isEmpty()) {
+                emailEditText.error = "Email is required to reset password"
+                emailEditText.requestFocus()
+                return@setOnClickListener
+            }
+            sendPasswordResetEmail(email)
         }
     }
 
@@ -105,7 +123,7 @@ class login : AppCompatActivity() {
                                 if (storedJabatan == selectedJabatan) {
                                     if (selectedJabatan == "Karyawan" && storedNama?.equals(nama, ignoreCase = true) == true) {
                                         proceedWithLogin(email, password, rememberMe, storedJabatan, storedNama)
-                                    } else if (selectedJabatan == "Manajemen") {
+                                    } else if (selectedJabatan == "Manager") {
                                         proceedWithLogin(email, password, rememberMe, storedJabatan, storedNama)
                                     } else {
                                         Toast.makeText(this, "Nama tidak cocok dengan data terdaftar", Toast.LENGTH_SHORT).show()
@@ -145,7 +163,7 @@ class login : AppCompatActivity() {
         }
 
         when (jabatan) {
-            "Manajemen" -> {
+            "Manager" -> {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -162,5 +180,58 @@ class login : AppCompatActivity() {
                 Toast.makeText(this, "Posisi pekerjaan tidak valid", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun sendPasswordResetEmail(email: String) {
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val newPasswordDialog = AlertDialog.Builder(this)
+                    newPasswordDialog.setTitle("Enter New Password")
+                    val input = EditText(this)
+                    newPasswordDialog.setView(input)
+
+                    newPasswordDialog.setPositiveButton("OK") { dialog, which ->
+                        val newPassword = input.text.toString()
+                        auth.signInWithEmailAndPassword(email, newPassword).addOnCompleteListener { signInTask ->
+                            if (signInTask.isSuccessful) {
+                                val user = auth.currentUser
+                                user?.updatePassword(newPassword)
+                                    ?.addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            val userId = user.uid
+                                            val userData = hashMapOf(
+                                                "password" to newPassword
+                                            )
+
+                                            db.collection("users").document(userId)
+                                                .update(userData as Map<String, Any>)
+                                                .addOnSuccessListener {
+                                                    Toast.makeText(this, "Password reset email sent to $email", Toast.LENGTH_SHORT).show()
+                                                }
+                                                .addOnFailureListener { exception ->
+                                                    Toast.makeText(this, "Failed to update password in Firestore: ${exception.message}", Toast.LENGTH_SHORT).show()
+                                                }
+                                        } else {
+                                            Toast.makeText(this, "Failed to update password in Firebase Authentication: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                            } else {
+                                Toast.makeText(this, "Failed to sign in with new password: ${signInTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+
+                    newPasswordDialog.setNegativeButton("Cancel") { dialog, which ->
+                        dialog.cancel()
+                    }
+
+                    newPasswordDialog.show()
+                } else {
+                    Toast.makeText(this, "Failed to send password reset email: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
     }
 }

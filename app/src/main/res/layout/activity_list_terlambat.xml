@@ -60,74 +60,93 @@
         android:textSize="16sp" />
 
 
-    <LinearLayout
+    <HorizontalScrollView
+        android:id="@+id/scrollkanan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView2"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:id="@+id/bulan1"
-        android:gravity="center">
+        android:scrollbars="none">
 
-        <!-- Box for Month 1 -->
-        <TextView
-            android:id="@+id/pertama"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/box_background_telat"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:text="1"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:id="@+id/bulan1">
 
-        <!-- Box for Month 2 -->
-        <TextView
-            android:id="@+id/kedua"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/box_background_white_telat"
-            android:gravity="center"
-            android:text="2"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            <!-- Box for Month 1 -->
+            <TextView
+                android:id="@+id/pertama"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/box_background_telat"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-        <!-- Box for Month 3 -->
-        <TextView
-            android:id="@+id/ketiga"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/box_background_white_telat"
-            android:gravity="center"
-            android:text="3"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            <!-- Box for Month 2 -->
+            <TextView
+                android:id="@+id/kedua"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/box_background_white_telat"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-        <!-- Box for Month 4 -->
-        <TextView
-            android:id="@+id/keempat"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/box_background_white_telat"
-            android:gravity="center"
-            android:text="4"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            <!-- Box for Month 3 -->
+            <TextView
+                android:id="@+id/ketiga"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/box_background_white_telat"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+            <!-- Box for Month 4 -->
+            <TextView
+                android:id="@+id/keempat"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/box_background_white_telat"
+                android:gravity="center"
+                android:text="4"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <!-- Box for Month 5 -->
+            <TextView
+                android:id="@+id/kelima"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/box_background_white_telat"
+                android:gravity="center"
+                android:text="5"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bulan1"
+        android:layout_below="@id/scrollkanan"
         android:padding="20dp"
         android:layout_marginTop="16dp"
         android:text="Detail Absensi:"

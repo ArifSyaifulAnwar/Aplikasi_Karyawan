@@ -14,20 +14,18 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.ArrayList
 import java.util.Calendar
-
 class terlambat : AppCompatActivity() {
     private lateinit var bulanViews: Array<TextView>
+    private var selectedYear: Int = Calendar.getInstance().get(Calendar.YEAR)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_terlambat)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
         val yearSpinner: Spinner = findViewById(R.id.yearSpinner)
         val yearsList = ArrayList<String>()
 
@@ -48,23 +46,17 @@ class terlambat : AppCompatActivity() {
         // Listener untuk menangani pemilihan tahun
         yearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val selectedYear = parent.getItemAtPosition(position).toString()
-                // Tampilkan tahun yang dipilih, Anda bisa menggantinya dengan logika yang sesuai
-                Toast.makeText(this@terlambat, "Tahun dipilih: $selectedYear", Toast.LENGTH_SHORT).show()
+                selectedYear = parent.getItemAtPosition(position).toString().toInt()
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Do nothing here
-            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-
         val buttonBack = findViewById<ImageView>(R.id.imageView4)
-        buttonBack.setOnClickListener{
+        buttonBack.setOnClickListener {
             val intent1 = Intent(this, DataRekap::class.java)
             startActivity(intent1)
         }
-
 
         bulanViews = arrayOf(
             findViewById(R.id.jan),
@@ -82,29 +74,60 @@ class terlambat : AppCompatActivity() {
         )
 
         // Menetapkan listener pada setiap TextView
-        for (bulanView in bulanViews) {
+        for ((index, bulanView) in bulanViews.withIndex()) {
             bulanView.setOnClickListener {
                 changeSelectedMonth(it)
-                openMingguanActivity()
+                openMingguanActivity(selectedYear, index + 1) // Index + 1 karena bulan dimulai dari 1
             }
         }
     }
 
     private fun changeSelectedMonth(selectedMonth: View) {
-
         for (bulanView in bulanViews) {
-            bulanView.setBackgroundResource(R.drawable.box_background_white) // Ganti ke background default
-            (bulanView as TextView).setTextColor(Color.BLACK) // Ganti ke warna teks default
+            bulanView.setBackgroundResource(R.drawable.box_background_white) // Background default
+            (bulanView as TextView).setTextColor(Color.BLACK) // Warna teks default
         }
 
         // Mengubah warna bulan yang dipilih
-        selectedMonth.setBackgroundResource(R.drawable.box_background) // Ganti ke background hijau
-        (selectedMonth as TextView).setTextColor(Color.WHITE) // Ganti ke warna teks putih
+        selectedMonth.setBackgroundResource(R.drawable.box_background) // Background hijau
+        (selectedMonth as TextView).setTextColor(Color.WHITE) // Warna teks putih
     }
 
-    private fun openMingguanActivity() {
+
+    private fun openMingguanActivity(selectedYear: Int, selectedMonth: Int) {
+        val db = FirebaseFirestore.getInstance()
+
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, selectedYear)
+        calendar.set(Calendar.MONTH, selectedMonth - 1) // Bulan dimulai dari 0
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        val startDate = Timestamp(calendar.time)
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        calendar.set(Calendar.MILLISECOND, 999)
+        val endDate = Timestamp(calendar.time)
+
+        println("Querying data for month: $selectedMonth, year: $selectedYear")
+        println("Start Date: $startDate")
+        println("End Date: $endDate")
+
+        // Kirim data ke activity berikutnya tanpa query Firestore di sini
         val intent = Intent(this, list_terlambat::class.java)
-        startActivity(intent) // Mulai aktivitas Mingguan
-
+        intent.putExtra("selectedYear", selectedYear)
+        intent.putExtra("selectedMonth", selectedMonth)
+        intent.putExtra("startDate", startDate.seconds * 1000) // Convert to milliseconds
+        intent.putExtra("endDate", endDate.seconds * 1000)    // Convert to milliseconds
+        startActivity(intent)
     }
+
+
+
+
 }

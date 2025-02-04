@@ -2,20 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:background="@drawable/rounded_card_background"
     android:padding="16dp"
     android:layout_marginBottom="8dp"
     android:elevation="4dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profileImage"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/fotoprofil"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/circle_background"
-        android:padding="4dp"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/fotoprofil"
+        app:shapeAppearanceOverlay="@style/CircleImageView"  />
+
+
 
     <LinearLayout
         android:layout_width="0dp"

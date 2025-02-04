@@ -3,13 +3,16 @@ package com.example.tunasid.karyawan
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.example.tunasid.R
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -95,7 +98,7 @@ class Profile : AppCompatActivity() {
             }
     }
     private fun fetchProfileImage(userId: String) {
-        val imageView = findViewById<ImageView>(R.id.fotoprofil)
+        val imageView = findViewById<ShapeableImageView>(R.id.fotoprofil)
 
         db.collection("users").document(userId)
             .get()
@@ -120,5 +123,6 @@ class Profile : AppCompatActivity() {
                 Toast.makeText(this, "Gagal memuat foto profil: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
 
 }

@@ -14,6 +14,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
@@ -22,10 +24,18 @@ import java.util.*
 class data_rekap_gabung_mingguan : AppCompatActivity() {
     private lateinit var weekViews: Array<TextView>
     private lateinit var dataContainer: LinearLayout
+    private var selectedYear: Int = 0
+    private var selectedMonth: Int = 0
+    private var startDate: Long = 0
+    private var endDate: Long = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_data_rekap_gabung_mingguan)
+        selectedYear = intent.getIntExtra("selectedYear", Calendar.getInstance().get(Calendar.YEAR))
+        selectedMonth = intent.getIntExtra("selectedMonth", Calendar.getInstance().get(Calendar.MONTH) + 1)
+        startDate = intent.getLongExtra("startDate", 0)
+        endDate = intent.getLongExtra("endDate", 0)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -41,7 +51,8 @@ class data_rekap_gabung_mingguan : AppCompatActivity() {
             findViewById(R.id.pertama),
             findViewById(R.id.kedua),
             findViewById(R.id.ketiga),
-            findViewById(R.id.keempat)
+            findViewById(R.id.keempat),
+            findViewById(R.id.kelima),
         )
 
         dataContainer = findViewById(R.id.dataKaryawan)
@@ -49,9 +60,7 @@ class data_rekap_gabung_mingguan : AppCompatActivity() {
         for ((index, weekView) in weekViews.withIndex()) {
             weekView.setOnClickListener {
                 changeColor(it)
-                val selectedYear = intent.getIntExtra("year", Calendar.getInstance().get(Calendar.YEAR))
-                val selectedMonth = intent.getIntExtra("month", Calendar.getInstance().get(Calendar.MONTH) + 1)
-                loadDataForWeek(selectedYear, selectedMonth, index + 1) // Week starts from 1
+                loadDataForWeek(selectedYear, selectedMonth, index + 1)
             }
         }
     }
@@ -66,25 +75,41 @@ class data_rekap_gabung_mingguan : AppCompatActivity() {
         selectedMonth.setBackgroundResource(R.drawable.box_background_gabing) // Ganti ke background yang dipilih
         (selectedMonth as TextView).setTextColor(Color.WHITE) // Ganti ke warna teks putih
     }
+
     private fun loadDataForWeek(selectedYear: Int, selectedMonth: Int, weekNumber: Int) {
         val db = FirebaseFirestore.getInstance()
 
-        // Setting up the calendar for the specified week
+        // Calculate week dates
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, selectedYear)
-        calendar.set(Calendar.MONTH, selectedMonth - 1) // Month is zero-based in Calendar
+        calendar.set(Calendar.MONTH, selectedMonth - 1)
         calendar.set(Calendar.DAY_OF_MONTH, 1)
         calendar.set(Calendar.WEEK_OF_MONTH, weekNumber)
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        val startDate = Timestamp(calendar.time)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
 
-        calendar.add(Calendar.DATE, 6) // End date is 6 days after start date (full week)
-        val endDate = Timestamp(calendar.time)
+        val weekStartDate = Timestamp(calendar.time)
 
-        // Query Firestore
+        calendar.add(Calendar.DATE, 6)
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+
+        val weekEndDate = Timestamp(calendar.time)
+
+        // Make sure we're within the selected month's bounds
+        val monthStartDate = Timestamp(Date(startDate))
+        val monthEndDate = Timestamp(Date(endDate))
+
+        // Use the more restrictive of the two date ranges
+        val queryStartDate = if (weekStartDate.seconds < monthStartDate.seconds) monthStartDate else weekStartDate
+        val queryEndDate = if (weekEndDate.seconds > monthEndDate.seconds) monthEndDate else weekEndDate
+
         db.collection("absensi")
-            .whereGreaterThanOrEqualTo("timestamp", startDate)
-            .whereLessThanOrEqualTo("timestamp", endDate)
+            .whereGreaterThanOrEqualTo("timestamp", queryStartDate)
+            .whereLessThanOrEqualTo("timestamp", queryEndDate)
             .get()
             .addOnSuccessListener { documents ->
                 val weeklyData = mutableListOf<AbsensiKaryawan>()
@@ -92,7 +117,11 @@ class data_rekap_gabung_mingguan : AppCompatActivity() {
                     val name = document.getString("name") ?: "Unknown"
                     val keterlambatan = document.getString("keterlambatan") ?: "Unspecified"
                     val timestamp = document.getTimestamp("timestamp")?.toDate() ?: Date()
-                    weeklyData.add(AbsensiKaryawan(name, keterlambatan, timestamp))
+
+                    // Only add data that falls within the selected month
+                    if (timestamp.time in startDate..endDate) {
+                        weeklyData.add(AbsensiKaryawan(name, keterlambatan, timestamp))
+                    }
                 }
                 displayWeekData(weeklyData)
             }
@@ -130,9 +159,14 @@ class data_rekap_gabung_mingguan : AppCompatActivity() {
             val cardView = LayoutInflater.from(this).inflate(R.layout.cardmingguan, dataContainer, false)
             val nameTextView = cardView.findViewById<TextView>(R.id.namaKaryawan)
             val positionTextView = cardView.findViewById<TextView>(R.id.positionKaryawan)
+            val totalTextView = cardView.findViewById<TextView>(R.id.total)
+            val profileImageView = cardView.findViewById<ShapeableImageView>(R.id.fotoprofil)
+
+            var buttonCount = 0
 
             nameTextView?.text = name
             positionTextView?.text = "karyawan"
+            fetchProfileImage(name, profileImageView)
 
             entries.forEach { entry ->
                 val calendar = Calendar.getInstance().apply { time = entry.timestamp }
@@ -142,13 +176,46 @@ class data_rekap_gabung_mingguan : AppCompatActivity() {
 
                 dayTextView?.let {
                     it.visibility = View.VISIBLE
-                    it.text = SimpleDateFormat("EEE, dd HH:mm", Locale.getDefault()).format(entry.timestamp)
+                    it.text = SimpleDateFormat("EEE, dd HH:mm", Locale("id", "ID")).format(entry.timestamp)
                     it.background = getDrawable(if (entry.keterlambatan == "Terlambat") R.drawable.button_terlambat else R.drawable.button_tepat_waktu)
+                    buttonCount++
+
                 } ?: showError("TextView for day $dayOfWeek not found in layout")
             }
-
+            totalTextView.text = "$buttonCount/6"
             dataContainer.addView(cardView)
         }
+    }
+    private fun fetchProfileImage(name: String, imageView: ShapeableImageView) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users")
+            .whereEqualTo("nama", name) // Ambil berdasarkan nama karyawan
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val profileImageUrl = documents.documents[0].getString("profileImage")
+                    if (!profileImageUrl.isNullOrEmpty()) {
+                        // Memuat gambar menggunakan Glide
+                        Glide.with(this)
+                            .load(profileImageUrl)
+                            //.placeholder(R.drawable.default_profile_placeholder) // Placeholder jika loading
+                            .error(R.drawable.fotoprofil) // Placeholder jika gagal
+                            .into(imageView)
+                    } else {
+                        // Gambar tidak tersedia, gunakan default
+                        imageView.setImageResource(R.drawable.fotoprofil)
+                    }
+                } else {
+                    // Tidak ada dokumen, gunakan gambar default
+                    imageView.setImageResource(R.drawable.fotoprofil)
+                }
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+                // Jika terjadi error, gunakan gambar default
+                imageView.setImageResource(R.drawable.fotoprofil)
+            }
     }
 
     private fun showError(message: String) {

@@ -107,44 +107,33 @@ class data_rekap_gabung : AppCompatActivity() {
 
         // Hitung tanggal awal dan akhir bulan yang dipilih
         val calendar = Calendar.getInstance()
-        calendar.set(selectedYear, selectedMonth - 1, 1, 0, 0, 0) // Set ke hari pertama bulan, bulan dimulai dari 0
+        calendar.set(Calendar.YEAR, selectedYear)
+        calendar.set(Calendar.MONTH, selectedMonth - 1) // Bulan dimulai dari 0
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
         val startDate = Timestamp(calendar.time)
 
-        calendar.set(selectedYear, selectedMonth - 1, calendar.getActualMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59)
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        calendar.set(Calendar.MILLISECOND, 999)
         val endDate = Timestamp(calendar.time)
 
-        db.collection("absensi")
-            .whereGreaterThanOrEqualTo("timestamp", startDate)
-            .whereLessThanOrEqualTo("timestamp", endDate)
-            .whereIn("keterlambatan", listOf("Tepat Waktu", "Terlambat")) // Filter untuk "Tepat Waktu" dan "Terlambat"
-            .get()
-            .addOnSuccessListener { documents ->
-                val dataList = ArrayList<String>()
-                if (documents.isEmpty) {
-                    dataList.add("Belum ada data di bulan $selectedMonth $selectedYear.")
-                } else {
-                    for (document in documents) {
-                        val name = document.getString("name")
-                        val keterlambatan = document.getString("keterlambatan")
-                        val timestamp = document.getTimestamp("timestamp")?.toDate()
-                        dataList.add("Nama: $name, Status: $keterlambatan, Tanggal: $timestamp")
-                    }
-                }
-                val intent = Intent(this, data_rekap_gabung_mingguan::class.java)
-                intent.putStringArrayListExtra("dataList", dataList)
-                startActivity(intent)
-            }
-            .addOnFailureListener { e ->
-                if (e.message?.contains("FAILED_PRECONDITION") == true) {
-                    Toast.makeText(
-                        this,
-                        "Error: Index Firestore belum dibuat untuk query ini. Silakan buat index di Firestore console.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
+        println("Querying data for month: $selectedMonth, year: $selectedYear")
+        println("Start Date: $startDate")
+        println("End Date: $endDate")
+
+        // Kirim data ke activity berikutnya tanpa query Firestore di sini
+        val intent = Intent(this, data_rekap_gabung_mingguan::class.java)
+        intent.putExtra("selectedYear", selectedYear)
+        intent.putExtra("selectedMonth", selectedMonth)
+        intent.putExtra("startDate", startDate.seconds * 1000) // Convert to milliseconds
+        intent.putExtra("endDate", endDate.seconds * 1000)    // Convert to milliseconds
+        startActivity(intent)
     }
 
 }

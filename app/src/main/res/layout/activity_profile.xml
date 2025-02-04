@@ -8,7 +8,8 @@
     android:background="@color/primary"
     tools:context=".karyawan.Profile">
 
-    <ImageView
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/fotoprofil"
         android:layout_width="114dp"
         android:layout_height="114dp"
@@ -16,7 +17,10 @@
         android:layout_marginLeft="27dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="35dp"
-        android:src="@drawable/circle_background" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/circle_background"
+        app:shapeAppearanceOverlay="@style/CircleImageView" />
+
 
     <TextView
         android:id="@+id/namaKaryawan"
@@ -178,11 +182,19 @@
                     android:layout_height="1dp"
                     android:background="@color/black" />
 
+
+
                 <Button
                     android:id="@+id/buttonEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/box_background"
+                    android:text="Edit Profile"
+                    android:textColor="@color/white" />
+
 
 
             </LinearLayout>

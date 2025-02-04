@@ -8,7 +8,8 @@
     android:layout_height="match_parent"
     tools:context=".karyawan.homekaryawan">
 
-    <ImageView
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/fotoprofil"
         android:layout_width="45dp"
         android:layout_height="53dp"
@@ -16,7 +17,9 @@
         android:layout_marginLeft="27dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="35dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/box_background" />
+
 
     <TextView
         android:id="@+id/namaKaryawan"
